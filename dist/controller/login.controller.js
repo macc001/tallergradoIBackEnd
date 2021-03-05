@@ -41,7 +41,7 @@ var jwt_service_1 = require("../service/jwt.service");
 var database_config_1 = require("../config/database.config");
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var conn, _a, user, passw, queryy, pass, posts, jwt, err_1;
+        var conn, _a, user, passw, queryy, pass, posts, jwt, resp, err_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, database_config_1.connect()];
@@ -59,7 +59,14 @@ function login(req, res) {
                 case 3:
                     posts = _b.sent();
                     jwt = new jwt_service_1.Jwt();
-                    res.status(200).json(posts.rows[0]);
+                    resp = posts.rows[0];
+                    // res.status(200).json(posts.rows[0]);
+                    res.status(200).send({
+                        ok: posts.rows[0].ok,
+                        mensaje: posts.rows[0].mensaje,
+                        data: posts.rows[0].data,
+                        token: posts.rows[0].ok === true ? jwt.crearToken() : "",
+                    });
                     return [3 /*break*/, 5];
                 case 4:
                     res.status(404).send({
@@ -102,7 +109,7 @@ function renovartoken(req, res) {
                     jwt = new jwt_service_1.Jwt();
                     res.status(200).send({
                         ok: true,
-                        token: jwt.crearToken(renovar),
+                        token: jwt.crearToken(),
                     });
                 }
                 else {

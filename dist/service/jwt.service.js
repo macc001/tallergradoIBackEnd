@@ -30,16 +30,15 @@ var Jwt = /** @class */ (function () {
     function Jwt() {
         this.secre = global_config_1.default.secret;
     }
-    Jwt.prototype.crearToken = function (user) {
+    Jwt.prototype.crearToken = function () {
         var payload = {
-            // id_user: user[0]["id_usuario"],
-            id_usuario: user.id_usuario,
-            usuar: user.usuar,
-            foto: user.foto,
-            email: user.email,
+            id_usuario: 1,
+            usuar: "Wilar",
+            foto: "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png",
+            email: "wilards@gmail.com",
             iat: dayjs().unix(),
             exp: dayjs()
-                .add(1, "hour")
+                .add(24, "hour")
                 .unix()
         };
         return jwt.encode(payload, global_config_1.default.secret);
