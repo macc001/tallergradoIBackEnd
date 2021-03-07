@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var database_config_1 = require("../config/database.config");
+var imagen_service_1 = require("../service/imagen.service");
 function list(req, res) {
     return __awaiter(this, void 0, void 0, function () {
         var conn, queryy, posts, err_1;
@@ -71,95 +72,56 @@ function list(req, res) {
 }
 function registrar(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, apellido, nombre, ci, sexo, fecha_nac, titulo, conn, query, posts, err_2;
+        var _a, nombre, descripcion, foto, imagen, resul, query, conn, posts, err_2;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 15, , 16]);
-                    _a = req.body, apellido = _a.apellido, nombre = _a.nombre, ci = _a.ci, sexo = _a.sexo, fecha_nac = _a.fecha_nac, titulo = _a.titulo;
-                    return [4 /*yield*/, database_config_1.connect()];
+                    _b.trys.push([0, 8, , 9]);
+                    _a = req.body, nombre = _a.nombre, descripcion = _a.descripcion;
+                    foto = req.files;
+                    if (!nombre) return [3 /*break*/, 6];
+                    if (!descripcion) return [3 /*break*/, 4];
+                    imagen = new imagen_service_1.Imagen();
+                    return [4 /*yield*/, imagen.subir_foto(foto)];
                 case 1:
-                    conn = _b.sent();
-                    if (!apellido) return [3 /*break*/, 13];
-                    if (!nombre) return [3 /*break*/, 11];
-                    if (!ci) return [3 /*break*/, 9];
-                    if (!sexo) return [3 /*break*/, 7];
-                    if (!fecha_nac) return [3 /*break*/, 5];
-                    if (!titulo) return [3 /*break*/, 3];
-                    query = "CALL registrar_profesor(?,?,?,?,?,?);";
-                    return [4 /*yield*/, conn.query(query, [
-                            apellido,
-                            nombre,
-                            ci,
-                            sexo,
-                            fecha_nac,
-                            titulo,
-                        ])];
+                    resul = _b.sent();
+                    query = "select * from registrarCategoria($1,$2,$3)";
+                    return [4 /*yield*/, database_config_1.connect()];
                 case 2:
-                    posts = _b.sent();
-                    if (posts[0][0][0].ok === 1) {
-                        res.status(200).send({
-                            ok: true,
-                        });
-                    }
-                    else {
-                        res.status(200).send({
-                            ok: false,
-                            messagge: posts[0][0][0].ci,
-                        });
-                    }
-                    return [3 /*break*/, 4];
+                    conn = _b.sent();
+                    return [4 /*yield*/, conn.query(query, [
+                            nombre,
+                            descripcion,
+                            resul.url,
+                        ])];
                 case 3:
+                    posts = _b.sent();
+                    conn.end();
+                    res.status(200).json(posts.rows[0]);
+                    return [3 /*break*/, 5];
+                case 4:
                     res.status(404).send({
                         ok: false,
-                        messagge: "complete el campo titulo",
+                        messagge: "complete el campo descripcion",
                     });
-                    _b.label = 4;
-                case 4: return [3 /*break*/, 6];
-                case 5:
-                    res.status(404).send({
-                        ok: false,
-                        messagge: "complete fecha_nac",
-                    });
-                    _b.label = 6;
-                case 6: return [3 /*break*/, 8];
-                case 7:
-                    res.status(404).send({
-                        ok: false,
-                        messagge: "seleccione el campo sexo",
-                    });
-                    _b.label = 8;
-                case 8: return [3 /*break*/, 10];
-                case 9:
-                    res.status(404).send({
-                        ok: false,
-                        messagge: "complete el campo ci",
-                    });
-                    _b.label = 10;
-                case 10: return [3 /*break*/, 12];
-                case 11:
+                    _b.label = 5;
+                case 5: return [3 /*break*/, 7];
+                case 6:
                     res.status(404).send({
                         ok: false,
                         messagge: "complete el campo nombre",
                     });
-                    _b.label = 12;
-                case 12: return [3 /*break*/, 14];
-                case 13:
-                    res.status(404).send({
-                        ok: false,
-                        messagge: "complete el campo apellido",
-                    });
-                    _b.label = 14;
-                case 14: return [3 /*break*/, 16];
-                case 15:
+                    _b.label = 7;
+                case 7: return [3 /*break*/, 9];
+                case 8:
                     err_2 = _b.sent();
                     res.status(500).send({
                         ok: false,
                         messagge: "error en la peticion",
                         error: err_2,
                     });
-                    return [3 /*break*/, 16];
-                case 16: return [2 /*return*/];
+                    return [3 /*break*/, 9];
+                case 9: return [2 /*return*/];
             }
         });
     });

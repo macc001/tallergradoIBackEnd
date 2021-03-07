@@ -11,12 +11,8 @@ var CategoriaRouter = /** @class */ (function () {
         this.routes();
     }
     CategoriaRouter.prototype.routes = function () {
-        // this.router.post(
-        //   "/registrar",
-        //   md_auth.ensureAuth,
-        //   productoController.registrar
-        // );
         this.router.get("/list", categoria_controller_1.default.list);
+        this.router.post("/registrar", categoria_controller_1.default.registrar);
     };
     return CategoriaRouter;
 }());

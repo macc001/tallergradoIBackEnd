@@ -43,6 +43,7 @@ exports.Server = void 0;
 var express_1 = __importDefault(require("express"));
 var cors_1 = __importDefault(require("cors"));
 var bodyParser = require("body-parser");
+var express_fileupload_1 = __importDefault(require("express-fileupload"));
 // rutas
 var index_routes_1 = __importDefault(require("../routes/index.routes"));
 var Server = /** @class */ (function () {
@@ -68,6 +69,7 @@ var Server = /** @class */ (function () {
         this.app.use(express_1.default.urlencoded({ extended: false }));
         this.app.use(cors_1.default());
         this.app.use(bodyParser.json());
+        this.app.use(express_fileupload_1.default());
     };
     Server.prototype.routes = function () {
         this.app.use(index_routes_1.default);
