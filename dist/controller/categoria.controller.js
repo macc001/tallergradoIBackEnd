@@ -126,4 +126,43 @@ function registrar(req, res) {
         });
     });
 }
-exports.default = { list: list, registrar: registrar };
+function eliminar(req, res) {
+    return __awaiter(this, void 0, void 0, function () {
+        var id_categoria, query, conn, posts, err_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 5, , 6]);
+                    id_categoria = req.body.id_categoria;
+                    if (!id_categoria) return [3 /*break*/, 3];
+                    query = "select * from eliminarCategoria($1)";
+                    return [4 /*yield*/, database_config_1.connect()];
+                case 1:
+                    conn = _a.sent();
+                    return [4 /*yield*/, conn.query(query, [id_categoria])];
+                case 2:
+                    posts = _a.sent();
+                    conn.end();
+                    res.status(200).json(posts.rows[0]);
+                    return [3 /*break*/, 4];
+                case 3:
+                    res.status(404).send({
+                        ok: false,
+                        messagge: "complete el campo id_categoria",
+                    });
+                    _a.label = 4;
+                case 4: return [3 /*break*/, 6];
+                case 5:
+                    err_3 = _a.sent();
+                    res.status(500).send({
+                        ok: false,
+                        messagge: "error en la peticion",
+                        error: err_3,
+                    });
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.default = { list: list, registrar: registrar, eliminar: eliminar };

@@ -13,6 +13,7 @@ var CategoriaRouter = /** @class */ (function () {
     CategoriaRouter.prototype.routes = function () {
         this.router.get("/list", categoria_controller_1.default.list);
         this.router.post("/registrar", categoria_controller_1.default.registrar);
+        this.router.post("/eliminar", categoria_controller_1.default.eliminar);
     };
     return CategoriaRouter;
 }());
