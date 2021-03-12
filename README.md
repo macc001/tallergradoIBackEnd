@@ -62,3 +62,8 @@ continuamos
 13 `heroku git:remote -a colegios-back-type-script-post`
 14 `git push heroku master`
 15 `heroku open`
+
+
+GIT
+git branch -M main
+git push -u origin main
